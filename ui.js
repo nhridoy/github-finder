@@ -1,6 +1,8 @@
 class Informations {
   constructor() {
     this.div = document.querySelector(".profile");
+    this.break = document.querySelector(".break");
+    this.err = document.createElement('div');
   }
 
   showInfo(data) {
@@ -25,7 +27,7 @@ class Informations {
                     </div>
                     <div class="col-md-8">
                         <div class="border border-3 border-primary d-flex align-items-center mb-1">
-                            <p class="m-2">Name: <strong>${data.full_name}</strong></p>
+                            <p class="m-2">Name: <strong>${data.name}</strong></p>
                         </div>
                         <div class="border border-3 border-primary d-flex align-items-center mb-1">
                             <p class="m-2">Location: <strong>${data.location}</strong></p>
@@ -71,8 +73,13 @@ class Informations {
     this.notFound(message);
   }
   notFound(message) {
-    this.div.innerHTML = `
-        <div class = "d-grid d-flex align-items-center justify-content-center bg-danger p-2 link-light border border-3 border-primary">${message}</div>
-        `;
+    this.div.innerHTML = "";
+    this.err.innerHTML = `
+    <div class = "d-grid d-flex align-items-center justify-content-center bg-danger p-2 link-light border border-3 border-primary">${message}</div>
+    `;
+    this.break.insertBefore(this.err, this.div);
+    setTimeout(() => {
+        this.err.remove();
+    }, 3000);
   }
 }
