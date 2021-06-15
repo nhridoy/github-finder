@@ -6,16 +6,18 @@ let profile = document.querySelector(".profile");
 let info = new Informations();
 btn.addEventListener("click", (e) => {
   let userName = inp.value;
-
+  
   // Fetch API
   if (userName != "") {
-    fetch(`https://api.github.com/users/${userName}`)
-      .then((result) => result.json())
-      .then((data) => {
-        if (data.message == "Not Found") {
+    Promise.all([
+      fetch(`https://api.github.com/users/${userName}`).then(resp => resp.json()),
+      fetch(`https://api.github.com/users/${userName}/repos`).then(resp => resp.json())
+    ]).then((data) => {
+        if (data[0].message == "Not Found") {
           info.notFound("User Not Found");
         } else {
-          info.showInfo(data);
+          info.showInfo(data[0]);
+          info.sliderRepo(data[0],data[1]);
         }
       });
   } else {
